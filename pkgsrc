@@ -1,0 +1,89 @@
+#! /bin/sh
+
+#depends on: gawk, cvs
+#optional dependency: lintpkgsrc
+
+
+SOURCE_TREE="/usr/pkgsrc"
+#export PATH="$PATH:/opt/pkgs/bin" #may be necessary on some installations
+
+help_() {
+	cat << EOF
+pkgsrc wrapper!
+Use: pkgsrc <command> [package name]
+Commands are:
+	search		Search package in pkgsrc tree
+	update		Update local pkgsrc tree
+	check		Check pkgsrc tree status and check for upgradeable packages.
+	install <pkg>	Compile and install specified package
+	remove <pkg>	Remove specified package
+	upgrade	<pkg>	Upgrades specified package"
+EOF
+	exit
+}
+
+search() {
+	(cd $SOURCE_TREE; ./pkglocate -i $PKGNAME 2>/dev/null)
+}
+
+install_() {
+	if [ $(id -u) -ne 0 ]; then echo "ERROR: must be root"; exit; fi
+	(cd "$SOURCE_TREE/$PKGNAME"; bmake install clean clean-depends)
+	exit
+}
+
+update_() {
+	if [ $(id -u) -ne 0 ]; then echo "ERROR: must be root"; exit; fi
+	(cd $SOURCE_TREE; env CVS_RSH=ssh cvs update -dP)
+}
+
+check_() {
+	#check if lintpkgsrc is installed:
+	command -v lintpkgsrc >/dev/null 2>&1 || { echo >&2 "Warning: lintpkgsrc was not found in path. To check for upgradeable packages, you must install it."; exit; }
+	lintpkgsrc -i
+
+}
+
+upgrade_() {
+	if [ $(id -u) -ne 0 ]; then echo "ERROR: must be root"; exit; fi
+	#netBSD wiki suggests this over "bmake update"
+	(cd "$SOURCE_TREE/$PKGNAME"; bmake replace)
+}
+
+remove_() {
+	if [ $(id -u) -ne 0 ]; then echo "ERROR: must be root"; exit; fi
+	(cd "$SOURCE_TREE/$PKGNAME"; bmake deinstall)
+}
+
+# "main":
+case $1 in
+	search )
+		if [ $# -lt 2 ]; then help_; fi
+		PKGNAME=$2
+		search
+		;;
+	install )
+		if [ $# -lt 2 ]; then help_; fi
+		PKGNAME=$2
+		install_
+		;;
+	update )
+		update_
+		;;
+	remove )
+		if [ $# -lt 2 ]; then help_; fi
+		PKGNAME=$2
+		remove_	
+		;;
+	upgrade )
+		if [ $# -lt 2 ]; then help_; fi
+		PKGNAME=$2
+		upgrade_
+		;;
+	check )
+		check_
+		;;
+	* )
+		help_
+		;;
+esac
