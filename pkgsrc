@@ -10,14 +10,14 @@ SOURCE_TREE="/usr/pkgsrc"
 help_() {
 	cat << EOF
 pkgsrc wrapper!
-Use: pkgsrc <command> [package name]
+Usage: pkgsrc <command> [package name]
 Commands are:
 	search		Search package in pkgsrc tree
 	update		Update local pkgsrc tree
 	check		Check pkgsrc tree status and check for upgradeable packages.
 	install <pkg>	Compile and install specified package
 	remove <pkg>	Remove specified package
-	upgrade	<pkg>	Upgrades specified package"
+	upgrade	<pkg>	Upgrades specified package
 EOF
 	exit
 }
