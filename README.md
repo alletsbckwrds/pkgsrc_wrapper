@@ -9,7 +9,7 @@ if you haven't, you can follow these steps:
 ## Using the script
 - Clone this repo or download just the pkgsrc file
 - ```chmod +x ./pkgsrc```
-<br/>
+---
 Please do note that this script needs a lot more testing. Feel free to report any issues.
 ```
 Usage: pkgsrc <command> [package name]
