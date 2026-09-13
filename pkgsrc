@@ -12,7 +12,7 @@ help_() {
 pkgsrc wrapper!
 Usage: pkgsrc <command> [package name]
 Commands are:
-	search		Search package in pkgsrc tree
+	search <pkg>	Search package in pkgsrc tree
 	update		Update local pkgsrc tree
 	check		Check pkgsrc tree status and check for upgradeable packages.
 	install <pkg>	Compile and install specified package
