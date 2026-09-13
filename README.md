@@ -21,8 +21,9 @@ Commands are:
 	remove <pkg>	Remove specified package
 	upgrade	<pkg>	Upgrades specified package
 ```
-You can test the script by installing ```lintkpkgsrc```, an optional dependency of this wrapper: ```# pkgsrc install lintpkgsrc```
+You can test the script by installing ```lintkpkgsrc```, an optional dependency of this wrapper: ```# pkgsrc install pkgtools/lintpkgsrc```
 ### Note:
 - bmake needs to be available in the path, even for this script which does NOT source from ```~/.bashrc```
 - This is not a bash script, this is a POSIX shell script. So this should work on BSD too.
 - This script depends on cvs and gawk. More info inside the script.
+- The ```search``` feature is offline, so it can work without any connection.
