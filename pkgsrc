@@ -12,12 +12,13 @@ help_() {
 pkgsrc wrapper!
 Usage: pkgsrc <command> [package name]
 Commands are:
-	search <pkg>	Search package in pkgsrc tree
+	search <pkg>	Search package in pkgsrc tree (offline)
 	update		Update local pkgsrc tree
 	check		Check pkgsrc tree status and check for upgradeable packages.
 	install <pkg>	Compile and install specified package
 	remove <pkg>	Remove specified package
 	upgrade	<pkg>	Upgrades specified package
+	info <pkg>	Show info about a package (offline)
 EOF
 	exit
 }
@@ -55,6 +56,11 @@ remove_() {
 	(cd "$SOURCE_TREE/$PKGNAME"; bmake deinstall)
 }
 
+info_() {
+	echo "$PKGNAME:"
+	(cat "$SOURCE_TREE/$PKGNAME/DESCR")
+}
+
 # "main":
 case $1 in
 	search )
@@ -82,6 +88,11 @@ case $1 in
 		;;
 	check )
 		check_
+		;;
+	info )
+		if [ $# -lt 2 ]; then help_; fi
+		PKGNAME=$2
+		info_
 		;;
 	* )
 		help_
