@@ -7,6 +7,8 @@ if you haven't, you can follow these steps:
 - ```# cd /usr/pkgsrc/bootsrtap && ./bootstrap --prefix /opt/pkgs --prefer-pkgsrc yes --make-jobs 2```
 #### Note, this is my way. It is not the only right way. Refer to netBSD's wiki for more details.
 ## Using the script
+- Clone this repo or download just the pkgsrc file
+- ```chmod +x ./pkgsrc```
 Please do note that this script needs a lot more testing. Feel free to report any issues.
 ```
 Usage: pkgsrc <command> [package name]
